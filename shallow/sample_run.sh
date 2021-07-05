@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataset="eurlex"
+dataset="rapt"
 data_dir="../sandbox/data/$dataset"
 results_dir="../sandbox/results/$dataset"
 model_dir="../sandbox/results/$dataset/model"
