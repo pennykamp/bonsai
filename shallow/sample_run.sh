@@ -51,7 +51,7 @@ mkdir -p $model_dir
     -siter 20 \
     -q 0 \
     -ptype 0 \
-    -ctype 0
+    -ctype 2
 
 
 # testing
