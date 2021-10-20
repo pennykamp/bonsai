@@ -29,7 +29,7 @@ _int get_rand_num( _int siz )
 
 Node* init_root( _int num_Y, _int max_depth )
 {
-  VecI lbls;
+  VecI lbls; //just integer
   for( _int i=0; i<num_Y; i++ )
     lbls.push_back(i);
   Node* root = new Node( lbls, 0, max_depth );
@@ -763,11 +763,11 @@ void kmeans( SMatF* mat, _float acc, VecI& partition, _int K) {
       best_sim = 0;
       best_center = 0;
       for( _int i=0; i<K; i++){
-	// cout << "cosines[i][j]=" << cosines[i][j] << endl;;
-	if(cosines[i][j] > best_sim){
-	  best_sim = cosines[i][j];
-	  best_center = i;
-	}
+	    // cout << "cosines[i][j]=" << cosines[i][j] << endl;;
+	      if(cosines[i][j] > best_sim){
+	        best_sim = cosines[i][j];
+	        best_center = i;
+	      }
       }
       assert(best_center >= 0);
       assert(best_center < K);
@@ -814,11 +814,11 @@ void kmeans( SMatF* mat, _float acc, VecI& partition, _int K) {
       best_center = 0;
       best_sim = 0;
       for( _int i=0; i<K; i++){
-	// not itself
-	if(cosines[i][j] > best_sim && i != partition[j]){
-	  best_sim = cosines[i][j];
-	  best_center = i;
-	}
+	      // not itself
+	      if(cosines[i][j] > best_sim && i != partition[j]){
+	        best_sim = cosines[i][j];
+	        best_center = i;
+	        }
       }
       assert(best_center >= 0);
       assert(best_center < K);
@@ -888,6 +888,15 @@ Tree* train_tree( SMatF* trn_X_Xf, SMatF* trn_Y_X, SMatF* cent_mat, Param& param
   _int num_Xf = trn_X_Xf->nr;
   _int num_Y = trn_Y_X->nc;
   _int num_XY = cent_mat->nr;
+  
+  cout<<"num_X="<<num_X<<endl;
+  cout<<"num_Xf="<<num_Xf<<endl;
+
+  cout<<"num_Y="<<num_Y<<endl;
+  cout<<"num_XY="<<num_XY<<endl;
+
+
+
 
   // ---------------
 	  
@@ -1086,20 +1095,20 @@ void train_trees( SMatF* trn_X_Xf, SMatF* trn_X_Y, SMatF* trn_X_XY, Param& param
     // cent_mat->unit_normalize_columns();  
     // cent_mat->threshold( param.cent_th ); // make it sparse by thresholding
   
-  if(param.cent_type == 0)
+  if(param.cent_type == 0) //Input representation
   {
     cent_mat = trn_X_Xf->prod( trn_Y_X );
     cent_mat->unit_normalize_columns();
   }
 
-  else if(param.cent_type == 1)
+  else if(param.cent_type == 1) //Output Representation
   {
     cent_mat = trn_X_Y->prod( trn_Y_X ); 
     cent_mat->remove_self_coocc(0);  //passing 0 instead of param.num_Xf
     cent_mat->unit_normalize_columns();
   }
 
-  else if(param.cent_type == 2)
+  else if(param.cent_type == 2) //Combination!
   {
     cent_mat = trn_X_XY->prod( trn_Y_X ); // get the label matrix , each column a label
     // cent_mat->unit_normalize_columns(); 
